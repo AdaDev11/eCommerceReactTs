@@ -1,5 +1,7 @@
-import { Colors } from "./index";
-import { createTheme } from "@mui/material/styles"; // To'g'ri import qilish
+import { lighten } from "polished";
+// import Colors from "./index";
+import { createTheme } from "@mui/material/styles";
+import { lighten } from "polished";
 
 export const Colors = {
     primary: "#5f2c3e",
@@ -46,25 +48,45 @@ const theme = createTheme({
             },
         },
 
-        // MyShopButton: {
-        //     styleOverrides: {
-        //         root: {
-        //             color: Colors.white,
-        //         },
-        //         primary: {
-        //             background: Colors.primary,
-        //             "&:hover": {
-        //                 background: lighten(Colors.primary, 0.05), // lighten funksiyasini to'g'ri qo'lladik
-        //             },
-        //         },
-        //         secondary: {
-        //             background: Colors.secondary,
-        //             "&:hover": {
-        //                 background: lighten(Colors.secondary, 0.05), // lighten funksiyasi va Colors.secondary to'g'rilandi
-        //             },
-        //         },
-        //     },
-        // },
+        MuiDrawer: {
+            styleOverrides: {
+                paper: {
+                    width: 250,
+                    background: Colors.primary,
+                    color: Colors.secondary,
+                    borderRadius: "0px 100px 0px 0px",
+                    borderRight: `2px solid ${Colors.secondary}`,
+                },
+            },
+        },
+
+        MuiDivider: {
+            styleOverrides: {
+                root: {
+                    borderColor: lighten(0.2, Colors.primary),
+                },
+            },
+        },
+
+        MyShopButton: {
+            styleOverrides: {
+                root: {
+                    color: Colors.white,
+                },
+                primary: {
+                    background: Colors.primary,
+                    "&:hover": {
+                        background: lighten(0.05, Colors.primary),
+                    },
+                },
+                secondary: {
+                    background: Colors.secondary,
+                    "&:hover": {
+                        background: lighten(0.05, Colors.secondary),
+                    },
+                },
+            },
+        },
     },
 });
 

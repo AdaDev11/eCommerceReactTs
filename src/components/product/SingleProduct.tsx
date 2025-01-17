@@ -13,11 +13,35 @@ import ProductMeta from "./productMeta";
 import productStore from "../../data/index.ts";
 import ShareIcon from "@mui/icons-material/Share";
 import FitScreenIcon from "@mui/icons-material/FitScreen";
+import useDialogModal from "../../hooks/useDialogModal";
+import ProductDetail from "../productdetail/index.tsx";
 
-export default function SingleProduct({ product, matches }) {
+export interface ProductProps {
+    id: number;
+    title: string;
+    category: string;
+    price: number;
+    images: string[];
+    description: string;
+    quantity: number;
+    thumbnail: string;
+    total: number;
+}
+
+interface SingleProduct {
+    product: ProductProps;
+    matches: boolean;
+}
+export default function SingleProduct({ product, matches }: SingleProduct) {
     useEffect(() => {
         productStore.fetchProducts();
     }, []);
+
+    const [
+        ProductDetailDialog,
+        showProductDetailDialog,
+        closeProductDetailDialog,
+    ] = useDialogModal(ProductDetail);
 
     return (
         <>
@@ -40,13 +64,16 @@ export default function SingleProduct({ product, matches }) {
                             <ShareIcon colot="primary" />
                         </ProductActionButton>
 
-                        <ProductActionButton isfav={1}>
+                        <ProductActionButton
+                            onClick={() => showProductDetailDialog()}
+                        >
                             <FitScreenIcon colot="primary" />
                         </ProductActionButton>
                     </Stack>
                 </ProductActionWrapper>
             </Product>
             <ProductAddToCart variant="contained">Add to cart</ProductAddToCart>
+            <ProductDetailDialog product={product} />
         </>
     );
 }

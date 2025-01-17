@@ -2,6 +2,7 @@ import { Colors } from "./../theme/index";
 // import { ProductActionButton } from './index';
 import { Box, IconButton, Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { slideInBottom, slideInRight } from "../animation/index.ts";
 
 export const Product = styled(Box)(({ theme }) => ({
     display: "flex",
@@ -18,7 +19,7 @@ export const ProductImage = styled("img")(({ src, theme }) => ({
     width: "100%",
     background: Colors.light_gray,
     padding: "10px",
-    height: "140px",
+    height: "180px",
     [theme.breakpoints.down("md")]: {
         width: "80%",
         padding: "24px",
@@ -49,9 +50,9 @@ export const ProductAddToCart = styled(Button)(({ show, theme }) => ({
         bottom: "2%",
         width: "300px",
         padding: "10px 5px",
-        // animation:
-        //     show &&
-        //     `${slideInBottom} 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both`,
+        animation:
+            show &&
+            `${slideInBottom} 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both`,
     },
     background: Colors.secondary,
     opacity: 0.9,
@@ -70,8 +71,8 @@ export const ProductActionWrapper = styled(Box)(({ show, theme }) => ({
         position: "absolute",
         right: 0,
         top: "20%",
-        // animation:
-        //     show &&
-        //     `${slideInRight} 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both`,
+        animation:
+            show &&
+            `${slideInRight} 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both`,
     },
 }));

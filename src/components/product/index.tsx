@@ -11,10 +11,9 @@ export default function Products() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Mahsulotlarni yuklash
         const fetchData = async () => {
-            await productStore.fetchProducts(); // API'dan mahsulotlarni yuklash
-            setLoading(false); // Yuklash holatini o'chirish
+            await productStore.fetchProducts();
+            setLoading(false);
         };
         fetchData();
     }, []);

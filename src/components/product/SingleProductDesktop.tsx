@@ -1,3 +1,4 @@
+import useDialogModal from "../../hooks/useDialogModal";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Stack from "@mui/material/Stack";
 import { useEffect, useState } from "react";
@@ -13,13 +14,40 @@ import ProductMeta from "./productMeta";
 import productStore from "../../data/index.ts";
 import ShareIcon from "@mui/icons-material/Share";
 import FitScreenIcon from "@mui/icons-material/FitScreen";
+import ProductDetail from "../productdetail/index.tsx";
 
-export default function SingleProductDesktop({ product, matches }) {
+export interface ProductProps {
+    id: number;
+    title: string;
+    category: string;
+    price: number;
+    images: string[];
+    description: string;
+    quantity: number;
+    thumbnail: string;
+    total: number;
+}
+
+interface SingleProductDesktopProps {
+    product: ProductProps; // Ob'ekt turida bo'lishi kerak
+    matches: boolean;
+}
+
+export default function SingleProductDesktop({
+    product,
+    matches,
+}: SingleProductDesktopProps) {
     useEffect(() => {
         productStore.fetchProducts();
     }, []);
 
-    const [showOption, setShowOption] = useState(false);
+    const [showOption, setShowOption] = useState<boolean>(false);
+
+    const [
+        ProductDetailDialog,
+        showProductDetailDialog,
+        closeProductDetailDialog,
+    ] = useDialogModal(ProductDetail);
 
     const handleMouseEnter = () => {
         setShowOption(true);
@@ -48,10 +76,7 @@ export default function SingleProductDesktop({ product, matches }) {
                 </ProductFavButton>
 
                 {showOption && (
-                    <ProductAddToCart
-                        show={setShowOption.toString}
-                        variant="contained"
-                    >
+                    <ProductAddToCart show={true} variant="contained">
                         Add to cart
                     </ProductAddToCart>
                 )}
@@ -61,13 +86,16 @@ export default function SingleProductDesktop({ product, matches }) {
                             <ShareIcon color="primary" />
                         </ProductActionButton>
 
-                        <ProductActionButton>
+                        <ProductActionButton
+                            onClick={() => showProductDetailDialog()}
+                        >
                             <FitScreenIcon color="primary" />
                         </ProductActionButton>
                     </Stack>
                 </ProductActionWrapper>
             </Product>
             <ProductMeta product={product} matches={matches} />
+            <ProductDetailDialog product={product} />
         </>
     );
 }

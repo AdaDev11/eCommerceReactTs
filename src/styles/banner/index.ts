@@ -24,7 +24,7 @@ export const BannerImage = styled("img")(({ src, theme }) => ({
     },
 
     [theme.breakpoints.down("sm")]: {
-        width: "320px",
+        width: "50%",
         height: "300px",
     },
 }));
@@ -68,12 +68,11 @@ export const BannerShopButton = styled(Button, {
         props.color === "secondary" && styles.secondary,
     ],
 })(({ theme }) => ({
-    padding: "20px 0px",
-    color: Colors.white,
+    padding: "20px 40px",
     fontWeight: "bold",
     fonstSize: "16px",
     [theme.breakpoints.down("sm")]: {
-        padding: "10px 0px",
+        padding: "10px 40px",
         fontSize: "14px",
     },
 }));

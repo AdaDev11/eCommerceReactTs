@@ -1,3 +1,4 @@
+import { useUIContext } from "./../../context/ui/index";
 import {
     Divider,
     ListItemText,
@@ -16,6 +17,7 @@ export default function AppbarDesktop({ matches }) {
     // const Component = matches
     //     ? ActionIconContainerMobile
     //     : ActionIconContainerDesktop;
+    const { setDrawerOpen, setShowSearchBox } = useUIContext();
 
     return (
         <AppbarContainer>
@@ -26,7 +28,7 @@ export default function AppbarDesktop({ matches }) {
                 <ListItemText primary="Products" />
                 <ListItemText primary="Contact us" />
                 <ListItemButton>
-                    <ListItemIcon>
+                    <ListItemIcon onClick={() => setShowSearchBox(true)}>
                         <SearchIcon />
                     </ListItemIcon>
                 </ListItemButton>

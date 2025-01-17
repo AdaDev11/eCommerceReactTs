@@ -4,8 +4,8 @@ import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import { Box } from "@mui/system";
 import "@fontsource/montez";
+import IconButton from "@mui/material/IconButton";
 
-// container
 export const AppbarContainer = styled(Box)(() => ({
     display: "flex",
     marginTop: 4,
@@ -14,7 +14,6 @@ export const AppbarContainer = styled(Box)(() => ({
     padding: "2px 8px",
 }));
 
-// header
 export const AppbarHeader = styled(Typography)(() => ({
     padding: "4px",
     flexGrow: 1,
@@ -43,4 +42,11 @@ export const ActionIconContainerMobile = styled(Box)(() => ({
 
 export const ActionIconContainerDesktop = styled(Box)(() => ({
     flexGrow: 0,
+}));
+
+export const DrawerCloseButton = styled(IconButton)(() => ({
+    position: "absolute",
+    top: 10,
+    left: "250px",
+    zIndex: 1999,
 }));
