@@ -18,17 +18,14 @@ export default function Products() {
         fetchData();
     }, []);
 
-    // Yuklanayotgan holatni ko‘rsatish
     if (loading) {
         return <Typography>Loading products...</Typography>;
     }
 
-    // Mahsulotlar mavjud emasligini tekshirish
     if (!productStore.products || productStore.products.length === 0) {
         return <Typography>No products available</Typography>;
     }
 
-    // Mahsulotlarni render qilish
     const renderProducts = productStore.products.map((product) => (
         <Grid
             item

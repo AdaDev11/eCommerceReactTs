@@ -13,9 +13,10 @@ import {
     IconButton,
     Typography,
     Button,
+    SlideProps,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { useTheme } from "@emotion/react";
+import { useTheme } from "@mui/material/styles";
 import { Product, ProductImage } from "../../styles/products/index.ts";
 import IncDec from "../ui/index.tsx";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -23,7 +24,6 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import XIcon from "@mui/icons-material/X";
 import InstagramIcon from "@mui/icons-material/Instagram";
-import SendIcon from "@mui/icons-material/Send";
 
 export interface ProductProps {
     id: number;
@@ -37,7 +37,7 @@ export interface ProductProps {
     total: number;
 }
 
-function SlideTransition(props) {
+function SlideTransition(props: SlideProps) {
     return <Slide direction="down" {...props} />;
 }
 
@@ -46,7 +46,7 @@ const ProductDetailWrapper = styled(Box)(({ theme }) => ({
     padding: theme.spacing(4),
 }));
 
-const ProductDetailInfoWrapper = styled(Box)(({ theme }) => ({
+const ProductDetailInfoWrapper = styled(Box)(() => ({
     display: "flex",
     flexDirection: "column",
     maxWidth: "500px",
@@ -70,7 +70,7 @@ export default function ProductDetail({
     return (
         <Dialog
             TransitionComponent={SlideTransition}
-            variant="permanat"
+            // variant="permanat"
             open={open}
             fullScreen
         >
@@ -105,7 +105,7 @@ export default function ProductDetail({
                         <Typography sx={{ lineHeight: 2 }} variant="h4">
                             {product.title}
                         </Typography>
-                        <Typography variant="body">
+                        <Typography variant="body1">
                             {product.description}
                         </Typography>
                         <Box

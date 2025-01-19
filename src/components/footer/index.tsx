@@ -30,7 +30,7 @@ export default function Footer() {
             <Grid container spacing={2} justifyContent="center">
                 <Grid item md={6} lg={4}>
                     <FooterTitle variant="body1">About us</FooterTitle>
-                    <Typography variant="caption2">
+                    <Typography variant="caption">
                         Lorem Ipsum is simply dummy text of the printing and
                         typesetting industry. Lorem Ipsum has been the
                         industry's standard dummy text ever since the 1500s,
@@ -58,22 +58,22 @@ export default function Footer() {
                     <FooterTitle variant="body1">Information</FooterTitle>
                     <List>
                         <ListItemText>
-                            <Typography lineHeight={2} variant="caption2">
+                            <Typography lineHeight={2} variant="caption">
                                 About us
                             </Typography>
                         </ListItemText>
                         <ListItemText>
-                            <Typography lineHeight={2} variant="caption2">
+                            <Typography lineHeight={2} variant="caption">
                                 Order Tracking
                             </Typography>
                         </ListItemText>
                         <ListItemText>
-                            <Typography lineHeight={2} variant="caption2">
+                            <Typography lineHeight={2} variant="caption">
                                 Privar &amp; Policy
                             </Typography>
                         </ListItemText>
                         <ListItemText>
-                            <Typography lineHeight={2} variant="caption2">
+                            <Typography lineHeight={2} variant="caption">
                                 Terms &amp; Conditiond
                             </Typography>
                         </ListItemText>
@@ -84,22 +84,22 @@ export default function Footer() {
                     <FooterTitle variant="body1">my account</FooterTitle>
                     <List>
                         <ListItemText>
-                            <Typography lineHeight={2} variant="caption2">
+                            <Typography lineHeight={2} variant="caption">
                                 Login
                             </Typography>
                         </ListItemText>
                         <ListItemText>
-                            <Typography lineHeight={2} variant="caption2">
+                            <Typography lineHeight={2} variant="caption">
                                 My Cart
                             </Typography>
                         </ListItemText>
                         <ListItemText>
-                            <Typography lineHeight={2} variant="caption2">
+                            <Typography lineHeight={2} variant="caption">
                                 My Account
                             </Typography>
                         </ListItemText>
                         <ListItemText>
-                            <Typography lineHeight={2} variant="caption2">
+                            <Typography lineHeight={2} variant="caption">
                                 Wishlist
                             </Typography>
                         </ListItemText>

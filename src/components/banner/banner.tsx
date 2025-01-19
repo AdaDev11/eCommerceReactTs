@@ -5,14 +5,13 @@ import {
     BannerTitle,
     BannerDescription,
     BannerImage,
-    BannerShopButton,
 } from "./../../styles/banner/index";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { useTheme } from "@mui/material/styles";
+// import useMediaQuery from "@mui/material/useMediaQuery";
+// import { useTheme } from "@mui/material/styles";
 
 export default function Banner() {
-    const theme = useTheme();
-    const matches = useMediaQuery(theme.breakpoints.down("md"));
+    // const theme = useTheme();
+    // const matches = useMediaQuery(theme.breakpoints.down("md"));
 
     return (
         <BannerContainer>
@@ -20,8 +19,7 @@ export default function Banner() {
             <BannerContent>
                 <Typography variant="h6">More</Typography>
                 <BannerTitle variant="h2">New Collections</BannerTitle>
-                <BannerDescription variant="subtitle">Luxury</BannerDescription>
-                <BannerShopButton color="primary">Show now</BannerShopButton>
+                <BannerDescription variant="caption">Luxury</BannerDescription>
             </BannerContent>
         </BannerContainer>
     );

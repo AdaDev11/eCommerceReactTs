@@ -1,10 +1,5 @@
 import { useUIContext } from "./../../context/ui/index";
-import {
-    Divider,
-    ListItemText,
-    ListItemButton,
-    ListItemIcon,
-} from "@mui/material";
+import { ListItemText, ListItemButton, ListItemIcon } from "@mui/material";
 import {
     AppbarContainer,
     AppbarHeader,
@@ -13,15 +8,17 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import Actions from "./actions.tsx";
 
-export default function AppbarDesktop({ matches }) {
-    // const Component = matches
-    //     ? ActionIconContainerMobile
-    //     : ActionIconContainerDesktop;
-    const { setDrawerOpen, setShowSearchBox } = useUIContext();
+export interface ActionProps {
+    matches: boolean;
+}
+
+export default function AppbarDesktop({ matches }: ActionProps) {
+    // Removed the unused setDrawerOpen to fix the warning
+    const { setShowSearchBox } = useUIContext();
 
     return (
         <AppbarContainer>
-            <AppbarHeader>SHopping </AppbarHeader>
+            <AppbarHeader>Shopping </AppbarHeader>
             <MyList type="row">
                 <ListItemText primary="Home" />
                 <ListItemText primary="Categories" />

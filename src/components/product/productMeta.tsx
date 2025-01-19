@@ -3,7 +3,24 @@ import { ProductMetaWrapper } from "./../../styles/products/index";
 import { useEffect } from "react";
 import productStore from "../../data/index.ts";
 
-export default function ProductMeta({ product, matches }) {
+export interface ProductProps {
+    id: number;
+    title: string;
+    category: string;
+    price: number;
+    images: string[];
+    description: string;
+    quantity: number;
+    thumbnail: string;
+    total: number;
+}
+
+interface MetaProduct {
+    product: ProductProps;
+    matches: boolean;
+}
+
+export default function ProductMeta({ product, matches }: MetaProduct) {
     useEffect(() => {
         productStore.fetchProducts();
     }, []);

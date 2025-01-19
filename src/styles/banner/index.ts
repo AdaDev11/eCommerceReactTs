@@ -1,4 +1,3 @@
-import { second } from "first";
 import { Colors } from "./../theme/index";
 import { styled } from "@mui/material/styles";
 import { Box, Typography, Button } from "@mui/material";

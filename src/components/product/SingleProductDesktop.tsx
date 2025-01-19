@@ -28,10 +28,12 @@ export interface ProductProps {
     total: number;
 }
 
-interface SingleProductDesktopProps {
-    product: ProductProps; // Ob'ekt turida bo'lishi kerak
+export interface SingleProductDesktopProps {
+    product: ProductProps;
     matches: boolean;
 }
+
+const isfav = 0;
 
 export default function SingleProductDesktop({
     product,
@@ -42,12 +44,9 @@ export default function SingleProductDesktop({
     }, []);
 
     const [showOption, setShowOption] = useState<boolean>(false);
+    const [openDialog, setOpenDialog] = useState<boolean>(false);
 
-    const [
-        ProductDetailDialog,
-        showProductDetailDialog,
-        closeProductDetailDialog,
-    ] = useDialogModal(ProductDetail);
+    const [ProductDetailDialog] = useDialogModal(ProductDetail);
 
     const handleMouseEnter = () => {
         setShowOption(true);
@@ -55,6 +54,14 @@ export default function SingleProductDesktop({
 
     const handleMouseLeave = () => {
         setShowOption(false);
+    };
+
+    const handleDialogOpen = () => {
+        setOpenDialog(true);
+    };
+
+    const handleDialogClose = () => {
+        setOpenDialog(false);
     };
 
     return (
@@ -71,7 +78,7 @@ export default function SingleProductDesktop({
                     }
                 />
 
-                <ProductFavButton isfav={0}>
+                <ProductFavButton isfav={!!isfav}>
                     <FavoriteIcon />
                 </ProductFavButton>
 
@@ -86,16 +93,18 @@ export default function SingleProductDesktop({
                             <ShareIcon color="primary" />
                         </ProductActionButton>
 
-                        <ProductActionButton
-                            onClick={() => showProductDetailDialog()}
-                        >
+                        <ProductActionButton onClick={handleDialogOpen}>
                             <FitScreenIcon color="primary" />
                         </ProductActionButton>
                     </Stack>
                 </ProductActionWrapper>
             </Product>
             <ProductMeta product={product} matches={matches} />
-            <ProductDetailDialog product={product} />
+            <ProductDetailDialog
+                product={product}
+                open={openDialog}
+                onClose={handleDialogClose}
+            />
         </>
     );
 }

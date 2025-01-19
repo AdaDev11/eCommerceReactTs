@@ -1,6 +1,6 @@
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Stack from "@mui/material/Stack";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
     Product,
     ProductImage,
@@ -32,15 +32,24 @@ interface SingleProduct {
     product: ProductProps;
     matches: boolean;
 }
+
+const isfav = 0;
+
 export default function SingleProduct({ product, matches }: SingleProduct) {
     useEffect(() => {
         productStore.fetchProducts();
     }, []);
 
+    const [openDialog, setOpenDialog] = useState<boolean>(false);
+
+    const handleDialogClose = () => {
+        setOpenDialog(false);
+    };
+
     const [
         ProductDetailDialog,
         showProductDetailDialog,
-        closeProductDetailDialog,
+        // closeProductDetailDialog,
     ] = useDialogModal(ProductDetail);
 
     return (
@@ -56,24 +65,29 @@ export default function SingleProduct({ product, matches }: SingleProduct) {
                 <ProductMeta product={product} matches={matches} />
                 <ProductActionWrapper>
                     <Stack direction="row">
-                        <ProductFavButton isfav={0}>
+                        <ProductFavButton isfav={!isfav}>
                             <FavoriteIcon />
                         </ProductFavButton>
 
-                        <ProductActionButton isfav={1}>
-                            <ShareIcon colot="primary" />
+                        <ProductActionButton>
+                            <ShareIcon color="primary" />
                         </ProductActionButton>
 
                         <ProductActionButton
                             onClick={() => showProductDetailDialog()}
                         >
-                            <FitScreenIcon colot="primary" />
+                            <FitScreenIcon color="primary" />
                         </ProductActionButton>
                     </Stack>
                 </ProductActionWrapper>
             </Product>
             <ProductAddToCart variant="contained">Add to cart</ProductAddToCart>
-            <ProductDetailDialog product={product} />
+
+            <ProductDetailDialog
+                product={product}
+                open={openDialog}
+                onClose={handleDialogClose}
+            />
         </>
     );
 }

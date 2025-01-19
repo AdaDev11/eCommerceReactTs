@@ -1,20 +1,42 @@
-import { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, ReactNode } from "react";
 
-export const UIContext = createContext();
-export const useUIContext = () => useContext(UIContext);
+export interface UIContextType {
+    drawerOpen: boolean;
+    setDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    showSearchBox: boolean; // Add this line to include showSearchBox
+    setShowSearchBox: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-const UIProvider = ({ children }) => {
+const UIContext = createContext<UIContextType | undefined>(undefined);
+
+interface UIProviderProps {
+    children: ReactNode;
+}
+
+const UIProvider: React.FC<UIProviderProps> = ({ children }) => {
     const [drawerOpen, setDrawerOpen] = useState(false);
-    const [showSearchBox, setShowSearchBox] = useState(false);
+    const [showSearchBox, setShowSearchBox] = useState(false); // Track showSearchBox state
 
-    const value = {
-        drawerOpen,
-        setDrawerOpen,
-        showSearchBox,
-        setShowSearchBox,
-    };
+    return (
+        <UIContext.Provider
+            value={{
+                drawerOpen,
+                setDrawerOpen,
+                showSearchBox,
+                setShowSearchBox,
+            }} // Include showSearchBox
+        >
+            {children}
+        </UIContext.Provider>
+    );
+};
 
-    return <UIContext.Provider value={value}> {children}</UIContext.Provider>;
+export const useUIContext = () => {
+    const context = useContext(UIContext);
+    if (!context) {
+        throw new Error("useUIContext must be used within a UIProvider");
+    }
+    return context;
 };
 
 export default UIProvider;

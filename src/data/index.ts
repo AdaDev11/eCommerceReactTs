@@ -38,17 +38,16 @@ configure({
 class ProductStore {
     products: Product[] = [];
     isLoading: boolean = false;
-    totalProducts: number = 0;
-    limit: number = 4;
-    skip: number = 0;
-    searchQuery: string = "";
+    totalProducts = 0;
+    limit = 4;
+    skip = 0;
+    searchQuery = "";
     cart: { product: Product; quantity: number }[] = [];
-    asc: string = "asc";
+    asc = "asc";
     user: User | null = null;
     refreshingPromise: boolean | null = null;
     authError: string | null = null;
     tempCart: { product: Product; quantity: number }[] = [];
-
     constructor() {
         makeAutoObservable(this);
     }
@@ -128,135 +127,31 @@ class ProductStore {
         this.fetchProducts();
     }
 
-    async updateOldCart(merge: boolean, products: Product) {
-        this.isLoading = true;
+    async addToCart(
+        userId: number,
+        products: { product: Product; quantity: number }[]
+    ) {
+        if (!userId || !products.length) return;
+
         try {
-            if (this.cart.length > 0) {
-                const res = await axios.put("https://dummyjson.com/carts/1", {
-                    merge,
-                    products,
-                });
+            const res = await axios.post("https://dummyjson.com/carts/add", {
+                userId,
+                products,
+            });
 
-                const cartData = res.data;
-
-                const newUpdateCart = cartData.products.map((product) => ({
-                    product: {
-                        id: product.id,
-                        title: product.title,
-                        price: product.price,
-                        thumbnail: product.thumbnail,
-                    },
-                    quantity: product.quantity,
-                    total: product.total,
-                    discountedPrice: product.discountedPrice,
-                }));
-
-                const mergeCart = [this.cart, ...newUpdateCart].reduce(
-                    (acc, item) => {
-                        const existing = acc.find(
-                            (p) => p.product.id === item.product.id
-                        );
-                        if (existing) {
-                            existing.quantity += item.quantity;
-                            existing.total += item.total;
-                        } else {
-                            acc.push(item);
-                        }
-                        return acc;
-                    },
-                    []
-                );
-
-                this.cart = mergeCart;
-            } else {
-                console.log("Cart is empty");
-            }
+            const cartData = res.data;
+            this.cart = cartData.products.map((product: any) => ({
+                product: {
+                    id: product.id,
+                    title: product.title,
+                    price: product.price,
+                    thumbnail: product.thumbnail,
+                },
+                quantity: product.quantity,
+                total: product.total,
+            }));
         } catch (error) {
-            console.error("Update cart error: ", error);
-        } finally {
-            this.isLoading = false;
-        }
-    }
-
-    async addToCart(userId: number, products: { product: Product }[]) {
-        try {
-            const newProduct = products[0]; // get first product
-            if (!newProduct || !newProduct.quantity) return; // if product not quantity exit
-
-            // this.tempCart =
-            //     JSON.parse(localStorage.getItem("this.tempCart")) || [];
-            // this.tempCart.push(this.product);
-            // localStorage.setItem("tempCart", JSON.stringify(this.tempCart));
-            // console.log("Product added to guest cart:", this.product);
-            // this.cart = [...this.tempCart];
-            // having product check
-            const existingItem = this.cart.find(
-                (item) => item.product.id === newProduct.id
-            );
-
-            if (existingItem) {
-                // if have product + qunatity
-                existingItem.quantity += newProduct.quantity;
-                this.changeQuantity(
-                    existingItem.product.id,
-                    existingItem.quantity
-                );
-            } else {
-                // add new product
-                const res = await axios.post(
-                    "https://dummyjson.com/carts/add",
-                    {
-                        userId,
-                        products,
-                    }
-                );
-
-                const cartData = res.data;
-
-                // get new products cart
-                const newCartItems = cartData.products.map((product) => ({
-                    product: {
-                        id: product.id,
-                        title: product.title,
-                        price: product.price,
-                        thumbnail: product.thumbnail,
-                    },
-                    quantity: product.quantity,
-                    total: product.total,
-                    discountedPrice: product.discountedPrice,
-                }));
-
-                // refresh or updeate cart
-                this.cart = [...this.cart, ...newCartItems];
-
-                // save products localstorage
-                localStorage.setItem(
-                    `${this.user.username}_cart`,
-                    JSON.stringify(this.cart)
-                );
-
-                if (!this.user.username) {
-                    // if  user bez login
-                    this.tempCart =
-                        JSON.parse(localStorage.getItem("temp_cart")) || [];
-                    this.tempCart.push(product);
-                    localStorage.setItem(
-                        "temp_cart",
-                        JSON.stringify(this.tempCart)
-                    );
-                } else {
-                    // if user login
-                    this.cart.push(product);
-                    localStorage.setItem(
-                        `${this.user.username}_cart`,
-                        JSON.stringify(this.cart)
-                    );
-                }
-            }
-
-            console.log("Add to cart cart:", this.cart);
-        } catch (error) {
-            console.error("Add to cart error:", error);
+            console.error("Error adding to cart:", error);
         }
     }
 
@@ -286,33 +181,34 @@ class ProductStore {
             this.user = userData;
             console.log("Authorization successful: ", userData);
 
-            const whisTokencart =
-                JSON.parse(localStorage.getItem(`${username}_cart`)) || [];
+            const whisTokencart = JSON.parse(
+                localStorage.getItem(`${username}_cart`) || "[]"
+            );
             this.cart = whisTokencart;
 
             console.log("whistokencart", whisTokencart);
 
             localStorage.setItem(
-                `${this.user.username}_cart`,
+                `${this.user?.username}_cart`,
                 JSON.stringify(this.cart)
             );
 
             console.log(
                 "local this cart",
-                localStorage.getItem(`${this.user.username}_cart`)
+                localStorage.getItem(`${this.user?.username}_cart`)
             );
 
             runInAction(() => {
                 this.user = userData;
-                this.isLoggedIn = true;
             });
 
-            const guestCart =
-                JSON.parse(localStorage.getItem("guestCart")) || [];
-            guestCart.push(this.product);
+            const guestCart = JSON.parse(
+                localStorage.getItem("guestCart") || "[]"
+            );
+            guestCart.push(this.products);
             console.log("guest cart", guestCart);
             localStorage.setItem("guestCart", JSON.stringify(guestCart));
-            console.log("Product added to guest cart:", this.product);
+            console.log("Product added to guest cart:", this.products);
 
             // get user cart dinamik
             const userCartResponse = await axios.get(
@@ -364,52 +260,20 @@ class ProductStore {
         localStorage.removeItem("cart");
         runInAction(() => {
             this.user = null;
-            this.isLoggedIn = false;
             this.cart = [];
         });
     }
 
-    removeFromCart(productId) {
-        let removecart =
-            JSON.parse(localStorage.getItem(`${this.user.username}_cart`)) ||
-            [];
-        localStorage.setItem(
-            `${this.user.username}_cart`,
-            JSON.stringify(this.cart)
-        );
-    }
-
     // pererenderingda cartti obnovit etiw
     loadCart() {
-        const loadcart =
-            JSON.parse(localStorage.getItem(`${this.user.username}_cart`)) ||
-            [];
+        const loadcart = JSON.parse(
+            localStorage.getItem(`${this.user?.username}_cart`) || "[]"
+        );
         this.cart = loadcart;
-    }
-
-    async signup(firstName: string, lastName: string, age: number) {
-        this.isloading = true;
-        try {
-            const res = await axios.post("https://dummyjson.com/users/add", {
-                firstName,
-                lastName,
-                age,
-            });
-            runInAction(() => {
-                this.user = res.data;
-            });
-        } catch (error) {
-            console.log("Sign up error: ", error);
-        } finally {
-            runInAction(() => {
-                this.isloading = false;
-            });
-        }
     }
 
     async authorizeUser(credentials: { username: string; password: string }) {
         this.isLoading = true;
-        this.authError = null; // update every time
         try {
             const response = await axios.post(
                 "https://dummyjson.com/auth/login",
@@ -420,13 +284,9 @@ class ProductStore {
             });
         } catch (error) {
             console.error("Authorization error: ", error);
-            runInAction(() => {
-                this.authError =
-                    error.response?.data?.message || "Authorization failed";
-            });
         } finally {
             runInAction(() => {
-                this.isLoading = false; // stop isloading
+                this.isLoading = false;
             });
         }
     }

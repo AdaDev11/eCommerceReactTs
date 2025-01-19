@@ -3,8 +3,12 @@ import { List } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import { Box } from "@mui/system";
-import "@fontsource/montez";
 import IconButton from "@mui/material/IconButton";
+// import "@fontsource/montez";
+
+export interface MyListProps {
+    type?: "row" | "column";
+}
 
 export const AppbarContainer = styled(Box)(() => ({
     display: "flex",
@@ -17,11 +21,11 @@ export const AppbarContainer = styled(Box)(() => ({
 export const AppbarHeader = styled(Typography)(() => ({
     padding: "4px",
     flexGrow: 1,
-    fontFamily: '"Montez", "cursive"',
+    fontFamily: "Montez, serif",
     color: Colors.secondary,
 }));
 
-export const MyList = styled(List)(({ type }) => ({
+export const MyList = styled(List)<MyListProps>(({ type }) => ({
     display: type === "row" ? "flex" : "block",
     flex: 3,
     justifyConten: "center",
