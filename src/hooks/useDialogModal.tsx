@@ -3,7 +3,7 @@ import { useState, useCallback } from "react";
 export default function useDialogModal<T extends object = {}>(
     Component: React.ComponentType<{ open: boolean; onClose: () => void } & T>
 ) {
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(true);
 
     const openDialog = useCallback(() => {
         setOpen(true);

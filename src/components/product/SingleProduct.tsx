@@ -48,9 +48,13 @@ export default function SingleProduct({ product, matches }: SingleProduct) {
 
     const [
         ProductDetailDialog,
-        showProductDetailDialog,
+        // showProductDetailDialog,
         // closeProductDetailDialog,
     ] = useDialogModal(ProductDetail);
+
+    const handleDialogOpen = () => {
+        setOpenDialog(true);
+    };
 
     return (
         <>
@@ -73,9 +77,7 @@ export default function SingleProduct({ product, matches }: SingleProduct) {
                             <ShareIcon color="primary" />
                         </ProductActionButton>
 
-                        <ProductActionButton
-                            onClick={() => showProductDetailDialog()}
-                        >
+                        <ProductActionButton onClick={handleDialogOpen}>
                             <FitScreenIcon color="primary" />
                         </ProductActionButton>
                     </Stack>
